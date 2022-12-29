@@ -60,12 +60,3 @@ repos:
     hooks:
     -   id: mypy
         fail_fast: true
-
-# safety
-# safety is used to check your installed dependencies for known security vulnerabilities against Safety DB,
-  # which is a database of known security vulnerabilities in Python packages.
--   repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    rev: 'v1.3.0'
-    hooks:
-    -   id: python-safety-dependencies-check
-        fail_fast: true

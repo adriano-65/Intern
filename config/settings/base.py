@@ -10,18 +10,37 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-import os
+import sys
 from pathlib import Path
 from typing import List
 
+import environ
+
 # Read environment variables
-env = os.environ
+env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
+APPS_DIR = BASE_DIR / "app"
+
+# Add apps directory to path
+sys.path.append(str(APPS_DIR))
 
 
-# Application definition
+# =============================================================================
+# GENERAL
+# =============================================================================
+
+DEBUG = env.bool("DJANGO_DEBUG", False)
+TIME_ZONE = "Africa/Nairobi"
+LANGUAGE_CODE = "en-us"
+USE_I18N = True
+USE_TZ = True
+
+
+# =============================================================================
+# APPS
+# =============================================================================
 
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -38,6 +57,10 @@ LOCAL_APPS: List[str] = []
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
+# =============================================================================
+# MIDDLEWARE
+# =============================================================================
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -48,12 +71,23 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
+# =============================================================================
+# URLS
+# =============================================================================
+
 ROOT_URLCONF = "config.urls"
+WSGI_APPLICATION = "config.wsgi.application"
+
+
+# =============================================================================
+# TEMPLATES
+# =============================================================================
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [APPS_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -66,11 +100,11 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "config.wsgi.application"
 
-
-# Database
+# =============================================================================
+# DATABASE CONFIG
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+# =============================================================================
 
 DATABASES = {
     "default": {
@@ -79,9 +113,24 @@ DATABASES = {
     }
 }
 
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
-# Password validation
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# =============================================================================
+# PASSWORDS
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
+# =============================================================================
+
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+    "django.contrib.auth.hashers.ScryptPasswordHasher",
+]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -99,24 +148,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
-
-LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = "UTC"
-
-USE_I18N = True
-
-USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
+# =============================================================================
+# STATIC
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+# =============================================================================
 
 STATIC_URL = "static/"
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+# =============================================================================
+# MEDIA
+# =============================================================================

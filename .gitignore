@@ -5,3 +5,4 @@ env.sh
 .pytest_cache
 .coverage
 coverage
+junitxml_report
