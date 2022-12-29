@@ -1,8 +1,0 @@
-[run]
-omit =
-	tests/*
-	config/*
-	manage.py
-
-[html]
-directory = coverage
