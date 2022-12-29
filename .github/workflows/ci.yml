@@ -1,0 +1,20 @@
+name: CI
+
+on: [push]
+
+env:
+  DJANGO_SETTINGS_MODULE: ${{ secrets.DJANGO_SETTINGS_MODULE }}
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+
+jobs:
+  linter:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v3
+
+      # Run all pre-commit hooks on all the files.
+      # Getting only staged files can be tricky in case a new PR is opened
+      # since the action is run on a branch in detached head state
+      - name: Install and Run Pre-commit
+        uses: pre-commit/action@v3.0.0

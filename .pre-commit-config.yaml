@@ -1,0 +1,71 @@
+# Assumption: You have pre-commit installed
+# All pre-commit plugins are added in this file
+# To install the hooks, run 'pre-commit install'
+# To update hooks automatically, run 'pre-commit autoupdate'
+# To manually run all pre-commit hooks on a repository, run 'pre-commit run --all-files'
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+# repo and hooks definitions
+repos:
+
+# pre-commit-hooks
+# Some out-of-the-box hooks for pre-commit.
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+    -   id: trailing-whitespace
+        fail_fast: true
+    -   id: end-of-file-fixer
+        fail_fast: true
+    -   id: check-yaml
+        fail_fast: true
+
+# isort
+# isort is used to automatically separate imports in your code into the following groups:
+  # -standard library
+  # -third-party
+  # -local
+-   repo: https://github.com/PyCQA/isort
+    rev: '5.11.4'
+    hooks:
+    -   id: isort
+        fail_fast: true
+
+# black
+# black is a Python code formatter that's used to reformat your code based on the Black's code style guide
+-   repo: https://github.com/psf/black
+    rev: '22.12.0'
+    hooks:
+    -   id: black
+        fail_fast: true
+
+# flake8, bandit
+# flake8-bandit is a tool designed to find common security issues in Python code such as:
+  # -hardcoded password strings,
+  # -deserializing untrusted code,
+  # -using pass in except blocks.
+-   repo: https://github.com/PyCQA/flake8
+    rev: '6.0.0'
+    hooks:
+    -   id: flake8
+        name: flake8 with [bandit]
+        additional_dependencies: [flake8-bandit]
+        fail_fast: true
+
+# mypy
+# mypy checks for optionally-enforced static types
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: 'v0.991'
+    hooks:
+    -   id: mypy
+        fail_fast: true
+
+# safety
+# safety is used to check your installed dependencies for known security vulnerabilities against Safety DB,
+  # which is a database of known security vulnerabilities in Python packages.
+-   repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+    rev: 'v1.3.0'
+    hooks:
+    -   id: python-safety-dependencies-check
+        fail_fast: true
