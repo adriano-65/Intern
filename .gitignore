@@ -1,0 +1,7 @@
+.mypy_cache
+__pycache__/
+db.sqlite3
+env.sh
+.pytest_cache
+.coverage
+coverage
